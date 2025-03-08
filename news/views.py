@@ -44,44 +44,49 @@ class BasePostCreate(CreateView):
     form_class = PostForm
     template_name = 'news/post_edit.html'
 
-    # Убираем __init__.  CreateView сам обрабатывает инициализацию.
-
     def form_valid(self, form):
         post = form.save(commit=False)
         author = Author.objects.get(user=self.request.user)
         post.author = author
-        post.post_type = self.post_type # Использование post_type из класса
-        post.save()  # Сохраняем здесь, чтобы вызвать отправку уведомлений
+        post.post_type = self.post_type
+        post.save()
+
+        # Сохраняем категории после сохранения поста
+        form.save_m2m()
+
+        print(f"Post ID: {post.id}")  # Убедимся, что id есть
+        print(f"Post categories after save: {post.categories.all()}")  # Проверяем категории
         self.send_notifications(post)
 
-        return super().form_valid(form)
+        return super().form_valid(form)  # Или просто return HttpResponseRedirect(self.get_success_url())
 
     def send_notifications(self, post):
+        print("send_notifications called")  # Проверяем, что метод вызывается
         for category in post.categories.all():
+            print(f"Post categories: {post.categories.all()}")  # Проверяем категории поста
+            print(f"Category subscribers: {category.subscribers.all()}")  # Проверяем подписчиков категории
             for subscriber in category.subscribers.all():
                 subject = post.title
-                # text_content = (
-                #     f"Здравствуй, {subscriber.username}. Новая статья в твоём любимом разделе!\n\n"
-                #     f"{post.preview()}"
-                # )
 
                 html_content = render_to_string(
-                   'news/email_notification.html',
+                    'news/email_notification.html',
                     {
                         'user': subscriber,
                         'post': post,
                     }
                 )
 
-
-                send_mail(
-                    subject,
-                    '', #Если html, то пустая строка
-                    'great.egor7288@yandex.ru', #Ваша почта
-                    [subscriber.email],
-                    fail_silently=False,
-                    html_message = html_content,
-                )
+                try:
+                    send_mail(
+                        subject,
+                        '',  # Если html, то пустая строка
+                        'great.egor7288@yandex.ru',  # Ваша почта
+                        [subscriber.email],
+                        fail_silently=False,
+                        html_message=html_content,
+                    )
+                except Exception as e:
+                    print(f"Error sending email: {e}")  # Ловим любые ошибки
 
     def get_success_url(self):
         return reverse('news_list')

@@ -8,7 +8,8 @@ urlpatterns = [
     path('pages/', include('django.contrib.flatpages.urls')),
     path('', include('news.urls')),
     path('accounts/', include('allauth.urls')), # Добавляем allauth
-    path('', include('protect.urls'))
+    path('', include('protect.urls')),
+    path('appointments/', include(('appointment.urls', 'appointments'), namespace='appointments')),
 ]
 
 # Добавьте этот блок для обслуживания статических файлов в режиме отладки
