@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     'news',
     'protect',
     'allauth',
-    'appointment',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -152,4 +151,4 @@ EMAIL_HOST_USER = 'great.egor7288'  # ваше имя пользователя, 
 EMAIL_HOST_PASSWORD = 'vuezzkkdvdleknmg'  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
 
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru' # если вы используете Яндекс, то не забудьте добавить + ‘@yandex.ru’
+#DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru' # если вы используете Яндекс, то не забудьте добавить + ‘@yandex.ru’
