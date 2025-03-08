@@ -1,0 +1,55 @@
+/* Общие стили */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    text-size-adjust: 100%;
+}
+
+h1, h2, h3 {
+    color: #0056b3; /* Темно-синий для заголовков */
+}
+
+a {
+    color: #007bff; /* Синий цвет для ссылок */
+    text-decoration: none; /* Убрать подчеркивание */
+}
+
+a:hover {
+    color: #0056b3; /* Более темный синий при наведении */
+    text-decoration: underline; /* Подчеркивать при наведении */
+}
+
+/* Стили для списка новостей */
+.news-list-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.news-list-item h3 {
+    margin-top: 0;
+}
+
+.news-list-item p {
+    margin-bottom: 0;
+}
+
+/* Стили для страницы деталей новости */
+.news-detail-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.news-detail-container h1 {
+    margin-bottom: 20px;
+}
+
+.news-date {
+    font-style: italic;
+    color: #6c757d;
+}
+

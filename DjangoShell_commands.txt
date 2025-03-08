@@ -1,0 +1,58 @@
+# Запуск Django Shell: python manage.py shell
+
+from django.contrib.auth.models import User  # Для работы с пользователями
+from news.models import Author, Category, Post, PostCategory, Comment  # Для работы с моделями
+
+# 1. Создание пользователей
+user1 = User.objects.create_user('ivanov')
+user2 = User.objects.create_user('petrov')
+
+# 2. Создание авторов
+author1 = Author.objects.create(user=user1)
+author2 = Author.objects.create(user=user2)
+
+# 3. Создание категорий
+category1 = Category.objects.create(name='Политика')
+category2 = Category.objects.create(name='Спорт')
+category3 = Category.objects.create(name='Образование')
+category4 = Category.objects.create(name='Наука')
+
+# 4. Создание постов (статьи и новость)
+post1 = Post.objects.create(author=author1, post_type=Post.ARTICLE, title='Новая статья о политике', text='Текст статьи...')
+post2 = Post.objects.create(author=author2, post_type=Post.ARTICLE, title='Интересная статья о спорте', text='Текст статьи...')
+post3 = Post.objects.create(author=author1, post_type=Post.NEWS, title='Срочная новость о науке', text='Текст новости...')
+
+# 5. Присвоение категорий постам
+post1.categories.add(category1, category2) # Статья о политике и спорте
+post2.categories.add(category2) # Статья о спорте
+post3.categories.add(category4) # Новость о науке
+
+# 6. Создание комментариев
+comment1 = Comment.objects.create(post=post1, user=user1, text='Отличная статья!')
+comment2 = Comment.objects.create(post=post1, user=user2, text='Согласен, очень интересно.')
+comment3 = Comment.objects.create(post=post2, user=user1, text='Мне понравилось.')
+comment4 = Comment.objects.create(post=post3, user=user2, text='Важная новость.')
+
+# 7. Корректировка рейтингов (лайки/дизлайки)
+post1.like()
+post1.like()
+post1.dislike()
+comment1.like()
+comment2.dislike()
+
+# 8. Обновление рейтингов пользователей
+author1.update_rating()
+author2.update_rating()
+
+# 9. Вывод username и рейтинга лучшего пользователя
+best_author = Author.objects.all().order_by('-rating').first()
+print(f'Username лучшего автора: {best_author.user.username}, рейтинг: {best_author.rating}')
+
+# 10. Вывод даты, username, рейтинга, заголовка и превью лучшей статьи
+best_post = Post.objects.all().order_by('-rating').first()
+print(f'Дата: {best_post.date_created}, Автор: {best_post.author.user.username}, Рейтинг: {best_post.rating}, Заголовок: {best_post.title}, Предисловие: {best_post.preview()}')
+
+# 11. Вывод всех комментариев к этой статье
+print('Комментарии к лучшей статье:')
+for comment in best_post.comment_set.all():
+    print(f'Дата: {comment.date_created}, Пользователь: {comment.user.username}, Рейтинг: {comment.rating}, Текст: {comment.text}')
