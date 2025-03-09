@@ -1,0 +1,14 @@
+    {% load i18n %}
+    {% load account %}
+
+    <h1>{% trans "Welcome!" %}</h1>
+
+    <p>{% blocktrans with user.username as username %}{% trans "Welcome, " %} {{ username }}!{% endblocktrans %}</p>
+
+    <p>{% trans "Thank you for signing up for our site!" %}</p>
+
+    <p>{% trans "Please click the link below to confirm your email address:" %}</p>
+
+    <p><a href="{{ activate_url }}">{{ activate_url }}</a></p>
+
+    <p>{% trans "Sincerely," %}<br>{% trans "The Our Site Team" %}</p>
