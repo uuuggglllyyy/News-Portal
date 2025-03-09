@@ -9,7 +9,6 @@ urlpatterns = [
     path('', include('news.urls')),
     path('accounts/', include('allauth.urls')), # Добавляем allauth
     path('', include('protect.urls')),
-    path('news/', include('news.urls')),  # Включаем news/urls.py
 ]
 
 # Добавьте этот блок для обслуживания статических файлов в режиме отладки

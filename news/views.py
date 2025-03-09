@@ -10,6 +10,7 @@ from .forms import PostForm, NewsSearchForm  # Создадим PostForm ниж�
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.utils import timezone
 
 
 class PostList(ListView):
@@ -49,6 +50,19 @@ class BasePostCreate(CreateView):
         author = Author.objects.get(user=self.request.user)
         post.author = author
         post.post_type = self.post_type
+
+        # Проверка количества публикаций за последние 24 часа
+        now = timezone.now()
+        start_of_day = now - timezone.timedelta(days=1)
+        post_count = Post.objects.filter(
+            author=author,
+            date_created__gte=start_of_day
+        ).count()
+
+        if post_count >= 3:
+            form.add_error(None, "Вы достигли лимита в 3 публикации в сутки.")
+            return self.form_invalid(form)
+
         post.save()
 
         # Сохраняем категории после сохранения поста
@@ -59,6 +73,12 @@ class BasePostCreate(CreateView):
         self.send_notifications(post)
 
         return super().form_valid(form)  # Или просто return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        """
+        Вызывается, если форма не прошла валидацию.
+        """
+        return self.render_to_response(self.get_context_data(form=form))
 
     def send_notifications(self, post):
         print("send_notifications called")  # Проверяем, что метод вызывается
