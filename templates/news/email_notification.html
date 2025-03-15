@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h2>Здравствуй, {{ user.username }}!</h2>
+    <p>Новая статья в твоём любимом разделе!</p>
+    <h3><a href="http://127.0.0.1:8000/news/{{post.id}}">{{ post.title }}</a></h3>
+    <p>{{ post.text|truncatechars:50|safe }}</p>
+</body>
+</html>

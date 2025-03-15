@@ -1,0 +1,24 @@
+{% extends 'default.html' %}
+
+{% block title %}Поиск новостей{% endblock %}
+
+{% block content %}
+    <h2>Поиск новостей</h2>
+
+    <form method="get">  {# GET метод, чтобы параметры отображались в URL #}
+        {{ form.as_p }}  {# Отображаем все поля формы в виде параграфов #}
+        <button type="submit">Поиск</button>
+    </form>
+
+    {% if news %}  {# Проверяем, есть ли результаты #}
+        <h3>Результаты поиска:</h3>
+        <ul>
+            {% for item in news %}
+                <li><a href="{% url 'news_detail' item.id %}">{{ item.title }}</a> - {{ item.date_created }} - {{ item.author }}</li> {#Добавьте отображение автора#}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Ничего не найдено.</p>
+    {% endif %}
+
+{% endblock %}
