@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}{{ post.title|censor }}{% endblock %}
+
+{% block content %}
+    <h2>{{ post.title|censor }}</h2>
+    <p class="text-muted">Дата публикации: {{ post.date_created|date:"d.m.Y" }}</p>
+    <p>Автор: {{ post.author.user.username }}</p>  {# Показываем имя пользователя автора #}
+    <p>{{ post.text|censor }}</p>
+
+    <a href="{% url 'news_edit' pk=post.pk %}" class="btn btn-secondary">Редактировать</a>
+    <a href="{% url 'news_delete' pk=post.pk %}" class="btn btn-danger">Удалить</a>
+
+    <a href="{% url 'news_list' %}" class="btn btn-secondary">К списку</a>
+{% endblock %}

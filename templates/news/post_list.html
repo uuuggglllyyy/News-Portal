@@ -1,0 +1,47 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}{% if is_news %}Новости{% else %}Статьи{% endif %}{% endblock %}
+
+{% block content %}
+    <h2>{% if is_news %}Новости{% else %}Статьи{% endif %}</h2>
+    <p>Всего постов: {{ page_obj.paginator.count }}</p>
+
+    <a href="{% url 'news_create' %}" class="btn btn-primary">Создать новость</a>
+    <a href="{% url 'articles_create' %}" class="btn btn-primary">Создать статью</a>
+
+    <ul class="list-group">
+        {% for post in posts %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h3><a href="{% url 'news_detail' news_id=post.pk %}">{{ post.title|censor }}</a></h3>
+                    <p class="text-muted">{{ post.date_created|date:"d.m.Y" }}</p>
+                    <p>{{ post.text|censor|truncatewords:20 }}</p>
+                </div>
+                <div>
+                    <a href="{% url 'news_edit' pk=post.pk %}" class="btn btn-sm btn-secondary">Редактировать</a>
+                    <a href="{% url 'news_delete' pk=post.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+
+            <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

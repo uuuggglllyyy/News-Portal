@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Еженедельная рассылка новостей</title>
+</head>
+<body>
+    <h1>Здравствуйте, {{ user.username }}!</h1>
+    <p>Предлагаем вам подборку новостей из категории "{{ category.name }}", добавленных за последнюю неделю:</p>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <a href="http://127.0.0.1:8000{% url 'news_detail' news_id=post.id %}">{{ post.title }}</a>
+                <br>
+                {{ post.text|truncatechars:200 }}
+            </li>
+        {% empty %}
+            <li>Новых новостей за последнюю неделю нет.</li>
+        {% endfor %}
+    </ul>
+    <p>Спасибо за то, что вы с нами!</p>
+</body>
+</html>
