@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.cache import cache
 
 class News(models.Model):
     title = models.CharField(max_length=200)
@@ -44,10 +45,11 @@ class Post(models.Model):
         (ARTICLE, 'Статья'),
         (NEWS, 'Новость'),
     ]
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+    author = models.ForeignKey('Author', on_delete=models.CASCADE)
     post_type = models.CharField(max_length=2, choices=POST_TYPES, default=NEWS)
     date_created = models.DateTimeField(auto_now_add=True)
-    categories = models.ManyToManyField(Category, through='PostCategory')
+    categories = models.ManyToManyField('Category', through='PostCategory')
     title = models.CharField(max_length=255)
     text = models.TextField()
     rating = models.IntegerField(default=0)
@@ -65,6 +67,16 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+    def save(self, *args, **kwargs):
+        # Сначала сохраняем объект
+        super().save(*args, **kwargs)
+
+        # Потом удаляем кэш для этой статьи
+        cache_key = f'post-{self.pk}'
+        cache.delete(cache_key)
+
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

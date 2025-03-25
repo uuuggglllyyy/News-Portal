@@ -12,7 +12,7 @@ from django.utils import timezone
 import logging  # ADD THIS LINE
 from .tasks import send_notifications  # Import Celery task
 from django.views.decorators.cache import cache_page
-
+from django.core.cache import cache
 
 logger = logging.getLogger(__name__) # ADD THIS LINE
 
@@ -43,6 +43,21 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'news/post_detail.html'
     context_object_name = 'post'
+
+    def get_object(self, queryset=None):
+        obj_id = self.kwargs.get('pk')
+        cache_key = f'post-{obj_id}'
+
+        # Сначала пробуем получить из кэша
+        obj = cache.get(cache_key)
+
+        if obj is None:
+            # Если в кэше нет, получаем из базы данных
+            obj = get_object_or_404(Post, pk=obj_id)  # используем get_object_or_404
+            # Сохраняем в кэш
+            cache.set(cache_key, obj)
+
+        return obj
 
 
 class BasePostCreate(CreateView):
