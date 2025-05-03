@@ -1,0 +1,6 @@
+2025-05-03 11:13:29 INFO django.utils.autoreload autoreload C:\Users\Егор\PycharmProjects\NewsPortal\News-Portal-main\newsportal\settings.py changed, reloading.
+2025-05-03 11:13:30 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
+2025-05-03 11:16:24 INFO django.utils.autoreload autoreload C:\Users\Егор\PycharmProjects\NewsPortal\News-Portal-main\middleware.py changed, reloading.
+2025-05-03 11:16:25 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
+2025-05-03 11:22:38 INFO django.utils.autoreload autoreload C:\Users\Егор\PycharmProjects\NewsPortal\News-Portal-main\newsportal\settings.py changed, reloading.
+2025-05-03 11:28:46 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader

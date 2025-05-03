@@ -1,6 +1,8 @@
+
 from pathlib import Path
 import os
 from celery.schedules import crontab
+import logging.config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,9 +15,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-b1i7_hdja@ye=v_^^r@m8e87dj^30$j8gw%)wf7a&o#w!x%7&g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'middleware.RequestLoggingMiddleware',### отладка
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -183,3 +186,41 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'cache_files'), # Указываем, куда будем сохранять кэшируемые файлы! Не забываем создать папку cache_files внутри папки с manage.py!
     }
 }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {'format': '%(asctime)s %(levelname)s %(name)s %(module)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'},
+        'file': {'format': '%(asctime)s %(levelname)s %(name)s %(module)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'},
+        'security': {'format': '%(asctime)s %(levelname)s %(name)s %(module)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'},
+        'error_file': {'format': '%(asctime)s %(levelname)s %(name)s %(pathname)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'}, # Убрали exc_info
+        'mail_admins_format': {'format': '%(asctime)s %(levelname)s %(name)s %(pathname)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'}  # Новый форматтер для почты
+    },
+    'handlers': {
+        'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler', 'formatter': 'console', 'filters': ['require_debug_true']},
+        'general': {'level': 'INFO', 'class': 'logging.FileHandler', 'filename': os.path.join(BASE_DIR, 'general.log'), 'formatter': 'file',  'filters': ['require_debug_false']}, # Временно убрали filter
+        'errors': {'level': 'ERROR', 'class': 'logging.FileHandler', 'filename': os.path.join(BASE_DIR, 'errors.log'), 'formatter': 'error_file'},
+        'security': {'level': 'WARNING', 'class': 'logging.FileHandler', 'filename': os.path.join(BASE_DIR, 'security.log'), 'formatter': 'security'},
+        'mail_admins': {'level': 'ERROR', 'class': 'django.utils.log.AdminEmailHandler', 'include_html': True, 'formatter': 'mail_admins_format'}  # Используем новый форматтер
+    },
+    'loggers': {
+        'django': {'handlers': ['console', 'general', 'errors'], 'level': 'DEBUG', 'propagate': False},
+        'django.security': {'handlers': ['security'], 'level': 'WARNING', 'propagate': False},
+        'django.request': {'handlers': ['errors', 'mail_admins'], 'level': 'ERROR', 'propagate': False},
+        'django.server': {'handlers': ['errors', 'mail_admins'], 'level': 'ERROR', 'propagate': False},
+        'django.template': {'handlers': ['errors'], 'level': 'ERROR', 'propagate': False},
+        'django.db.backends': {'handlers': ['errors'], 'level': 'ERROR', 'propagate': False},
+        'news.views': { # Или 'protect.views', или другое имя вашего модуля
+            'handlers': ['console', 'errors'],
+            'level': 'DEBUG', #  Или 'ERROR',  в продакшене, 'DEBUG' для тестирования.
+            'propagate': False,
+        },
+    },
+    'filters': {
+        'require_debug_true': {'()': 'django.utils.log.RequireDebugTrue'},
+        'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}
+    }
+}
+
+logging.config.dictConfig(LOGGING)

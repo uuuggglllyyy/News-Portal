@@ -1,0 +1,21 @@
+ю€2025-05-03 11:28:11 ERROR news.views C:\Users\≈гор\PycharmProjects\NewsPortal\News-Portal-main\news\views.py This is an error message: division by zero
+Traceback (most recent call last):
+  File "C:\Users\≈гор\PycharmProjects\NewsPortal\News-Portal-main\news\views.py", line 28, in test_logging_view
+    1 / 0
+    ~~^~~
+ZeroDivisionError: division by zero
+2025-05-03 11:28:11 CRITICAL news.views C:\Users\≈гор\PycharmProjects\NewsPortal\News-Portal-main\news\views.py This is a critical message.
+2025-05-03 11:28:52 ERROR news.views C:\Users\≈гор\PycharmProjects\NewsPortal\News-Portal-main\news\views.py This is an error message: division by zero
+Traceback (most recent call last):
+  File "C:\Users\≈гор\PycharmProjects\NewsPortal\News-Portal-main\news\views.py", line 28, in test_logging_view
+    1 / 0
+    ~~^~~
+ZeroDivisionError: division by zero
+2025-05-03 11:28:52 CRITICAL news.views C:\Users\≈гор\PycharmProjects\NewsPortal\News-Portal-main\news\views.py This is a critical message.
+2025-05-03 11:30:30 ERROR news.views C:\Users\≈гор\PycharmProjects\NewsPortal\News-Portal-main\news\views.py This is an error message: division by zero
+Traceback (most recent call last):
+  File "C:\Users\≈гор\PycharmProjects\NewsPortal\News-Portal-main\news\views.py", line 28, in test_logging_view
+    1 / 0
+    ~~^~~
+ZeroDivisionError: division by zero
+2025-05-03 11:30:30 CRITICAL news.views C:\Users\≈гор\PycharmProjects\NewsPortal\News-Portal-main\news\views.py This is a critical message.
