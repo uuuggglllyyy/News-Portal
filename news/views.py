@@ -19,7 +19,7 @@ from django.http import HttpResponse
 logger = logging.getLogger(__name__) # ADD THIS LINE
 security_logger = logging.getLogger('django.security') # ADD THIS LINE
 
-
+#тест логов, вызывает ошибку
 def test_logging_view(request):
     logger.debug("This is a debug message.")
     logger.info("This is an info message.")
@@ -29,12 +29,11 @@ def test_logging_view(request):
     except Exception as e:
         logger.error(f"This is an error message: {e}", exc_info=True)  # Включаем стек трейс
         logger.critical("This is a critical message.")
-
-    security_logger = logging.getLogger('django.security') # Получаем существующий логгер
+        raise  # Важно: перебросить исключение, чтобы Django обработал его
+    security_logger = logging.getLogger('django.security')  # Получаем существующий логгер
     security_logger.warning("Security warning: Unauthorized access attempt!")
 
     return HttpResponse("Logging test page.")
-
 
 class PostList(ListView):
     model = Post

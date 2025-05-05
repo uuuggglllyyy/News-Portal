@@ -7,7 +7,6 @@ import logging.config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -18,7 +17,6 @@ SECRET_KEY = 'django-insecure-b1i7_hdja@ye=v_^^r@m8e87dj^30$j8gw%)wf7a&o#w!x%7&g
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
 
 # Application definition
 
@@ -41,7 +39,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'middleware.RequestLoggingMiddleware',### отладка
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,7 +77,6 @@ AUTHENTICATION_BACKENDS = [
 
 WSGI_APPLICATION = 'newsportal.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -90,7 +86,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -110,8 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -122,7 +115,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -162,7 +154,6 @@ APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 # если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
-
 # Celery settings
 CELERY_BROKER_URL = 'redis://localhost:6379/0'  # URL вашего Redis сервера
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Optional, для отслеживания результатов задач
@@ -171,7 +162,6 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Yekaterinburg'  # Установите свой часовой пояс
 
-
 CELERY_BEAT_SCHEDULE = {
     'send_weekly_newsletter': {
         'task': 'news.tasks.send_weekly_newsletter',  # Путь к вашей task
@@ -179,13 +169,20 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR, 'cache_files'), # Указываем, куда будем сохранять кэшируемые файлы! Не забываем создать папку cache_files внутри папки с manage.py!
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),  # Указываем, куда будем сохранять кэшируемые файлы! Не забываем создать папку cache_files внутри папки с manage.py!
     }
 }
+
+# Настройки для отправки сообщений администраторам
+ADMINS = [
+    ('greategor', 'great.egor7288@yandex.ru'),
+    # ('Имя Админа 2', 'адрес2@example.com'), # Добавьте других админов при необходимости
+]
+
+SERVER_EMAIL = DEFAULT_FROM_EMAIL  # Или другой адрес, с которого будут отправляться сообщения об ошибках
 
 LOGGING = {
     'version': 1,
@@ -194,32 +191,82 @@ LOGGING = {
         'console': {'format': '%(asctime)s %(levelname)s %(name)s %(module)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'},
         'file': {'format': '%(asctime)s %(levelname)s %(name)s %(module)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'},
         'security': {'format': '%(asctime)s %(levelname)s %(name)s %(module)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'},
-        'error_file': {'format': '%(asctime)s %(levelname)s %(name)s %(pathname)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'}, # Убрали exc_info
-        'mail_admins_format': {'format': '%(asctime)s %(levelname)s %(name)s %(pathname)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'}  # Новый форматтер для почты
-    },
-    'handlers': {
-        'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler', 'formatter': 'console', 'filters': ['require_debug_true']},
-        'general': {'level': 'INFO', 'class': 'logging.FileHandler', 'filename': os.path.join(BASE_DIR, 'general.log'), 'formatter': 'file',  'filters': ['require_debug_false']}, # Временно убрали filter
-        'errors': {'level': 'ERROR', 'class': 'logging.FileHandler', 'filename': os.path.join(BASE_DIR, 'errors.log'), 'formatter': 'error_file'},
-        'security': {'level': 'WARNING', 'class': 'logging.FileHandler', 'filename': os.path.join(BASE_DIR, 'security.log'), 'formatter': 'security'},
-        'mail_admins': {'level': 'ERROR', 'class': 'django.utils.log.AdminEmailHandler', 'include_html': True, 'formatter': 'mail_admins_format'}  # Используем новый форматтер
-    },
-    'loggers': {
-        'django': {'handlers': ['console', 'general', 'errors'], 'level': 'DEBUG', 'propagate': False},
-        'django.security': {'handlers': ['security'], 'level': 'WARNING', 'propagate': False},
-        'django.request': {'handlers': ['errors', 'mail_admins'], 'level': 'ERROR', 'propagate': False},
-        'django.server': {'handlers': ['errors', 'mail_admins'], 'level': 'ERROR', 'propagate': False},
-        'django.template': {'handlers': ['errors'], 'level': 'ERROR', 'propagate': False},
-        'django.db.backends': {'handlers': ['errors'], 'level': 'ERROR', 'propagate': False},
-        'news.views': { # Или 'protect.views', или другое имя вашего модуля
-            'handlers': ['console', 'errors'],
-            'level': 'DEBUG', #  Или 'ERROR',  в продакшене, 'DEBUG' для тестирования.
-            'propagate': False,
-        },
+        'error_file': {'format': '%(asctime)s %(levelname)s %(name)s %(pathname)s %(exc_info)s %(message)s', 'datefmt': '%Y-%m-%d %H:%M:%S'}
     },
     'filters': {
         'require_debug_true': {'()': 'django.utils.log.RequireDebugTrue'},
         'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+            'filters': ['require_debug_true']
+        },
+        'general': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'general.log'),
+            'formatter': 'file',
+            'filters': ['require_debug_false']
+        },
+        'errors': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'errors.log'),
+            'formatter': 'error_file'
+        },
+        'security': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'security.log'),
+            'formatter': 'security'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+            'formatter': 'error_file',  # Use error_file format
+            'filters': ['require_debug_false']  # Send emails only when DEBUG is False
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'general'], # Remove 'errors' handler here
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'django.security': {
+            'handlers': ['security'],
+            'level': 'WARNING',
+            'propagate': False
+        },
+        'django.request': {
+            'handlers': ['mail_admins'], # Only mail_admins
+            'level': 'ERROR',
+            'propagate': False
+        },
+        'django.server': {
+            'handlers': ['mail_admins'], # Only mail_admins
+            'level': 'ERROR',
+            'propagate': False
+        },
+         'django.template': {
+            'handlers': ['errors'],
+            'level': 'ERROR',
+            'propagate': False
+        },
+        'django.db.backends': {
+            'handlers': ['errors'],
+            'level': 'ERROR',
+            'propagate': False
+        },
+        'news.views': {  # Или 'protect.views', или другое имя вашего модуля
+            'handlers': ['console', 'errors'], # Keep console and errors
+            'level': 'DEBUG', # Or 'ERROR', in production, 'DEBUG' for testing.
+            'propagate': False,
+        },
     }
 }
 

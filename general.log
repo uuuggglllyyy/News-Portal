@@ -1,6 +1,14 @@
-2025-05-03 11:13:29 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\newsportal\settings.py changed, reloading.
-2025-05-03 11:13:30 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
-2025-05-03 11:16:24 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\middleware.py changed, reloading.
-2025-05-03 11:16:25 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
-2025-05-03 11:22:38 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\newsportal\settings.py changed, reloading.
-2025-05-03 11:28:46 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
+2025-05-05 20:08:58 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\newsportal\settings.py changed, reloading.
+2025-05-05 20:09:34 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
+2025-05-05 20:12:37 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\views.py changed, reloading.
+2025-05-05 20:12:38 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
+2025-05-05 20:17:00 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\urls.py changed, reloading.
+2025-05-05 20:17:01 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
+2025-05-05 20:17:29 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\urls.py changed, reloading.
+2025-05-05 20:17:31 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
+2025-05-05 20:18:07 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\urls.py changed, reloading.
+2025-05-05 20:18:08 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
+2025-05-05 20:19:45 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\newsportal\settings.py changed, reloading.
+2025-05-05 20:20:23 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
+2025-05-05 20:26:36 INFO django.utils.autoreload autoreload C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\views.py changed, reloading.
+2025-05-05 20:26:37 INFO django.utils.autoreload autoreload Watching for file changes with StatReloader
