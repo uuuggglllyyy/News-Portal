@@ -1,18 +1,17 @@
 {% extends 'default.html' %}
-
+{% load i18n %}
 {% load custom_filters %}
 
 {% block title %}{{ news.title }}{% endblock %}
-
-
 
 {% block content %}
     <div class="container">
         <div class="news-detail">
             <h1>{{ news.title|censor }}</h1>
-            <p class="text-muted">Дата публикации: {{ news.date_created|date:"d.m.Y" }}</p>
+            <p class="text-muted">{% trans "Date of publication:" %} {{ news.date_created|date:"d.m.Y" }}</p>
             <p>{{ news.text|censor }}</p>
-            <a href="{% url 'news_list' %}" class="btn btn-primary">К списку новостей</a>
+            <a href="{% url 'news_list' %}" class="btn btn-primary">{% trans "Back to news list" %}</a>
         </div>
     </div>
 {% endblock %}
+

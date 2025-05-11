@@ -1,0 +1,175 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-07 16:21+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\news\views.py:26
+msgid "This is a debug message."
+msgstr "Это отладочное сообщение."
+
+#: .\news\views.py:27
+msgid "This is an info message."
+msgstr "Это информационное сообщение."
+
+#: .\news\views.py:28
+msgid "This is a warning message."
+msgstr "Это предупреждающее сообщение."
+
+#: .\news\views.py:33
+msgid "This is a critical message."
+msgstr "Это очень важное сообщение."
+
+#: .\news\views.py:36
+msgid "Security warning: Unauthorized access attempt!"
+msgstr ""
+"Предупреждение системы безопасности: Попытка несанкционированного доступа!"
+
+#: .\news\views.py:38
+msgid "Logging test page."
+msgstr "Тестовая страница ведения журнала."
+
+#: .\news\views.py:105
+msgid "You have reached the limit of 3 publications per day."
+msgstr "Вы достигли лимита в 3 публикации в сутки."
+
+#: .\news\views.py:112
+msgid "for a post with an id"
+msgstr "для поста с id"
+
+#: .\news\views.py:115
+msgid "completed once for a post with the id"
+msgstr "выполнилась один раз для поста с id"
+
+#: .\news\views.py:130 .\news\views.py:154 .\news\views.py:176
+#: .\templates\news\news_list.html:9
+msgid "News"
+msgstr "Новости"
+
+#: .\news\views.py:130 .\news\views.py:154 .\news\views.py:176
+msgid "Article"
+msgstr "Статья"
+
+#: .\templates\account\email\email_confirmation_signup_message.html:6
+msgid "Confirmation email"
+msgstr "Подтверждение по электронной почте"
+
+#: .\templates\account\email\email_confirmation_signup_message.html:11
+msgid "Thank you for registering"
+msgstr "Благодарим вас за регистрацию"
+
+#: .\templates\account\email\email_confirmation_signup_message.html:12
+msgid "Please follow"
+msgstr "Пожалуйста, следуйте за мной"
+
+#: .\templates\account\email\email_confirmation_signup_message.html:12
+msgid "to activate your account"
+msgstr "чтобы активировать свою учетную запись"
+
+#: .\templates\default.html:29
+msgid "Go"
+msgstr ""
+
+#: .\templates\default.html:38
+msgid "2025"
+msgstr ""
+
+#: .\templates\news\news_detail.html:11
+msgid "Date of publication:"
+msgstr "Дата публикации:"
+
+#: .\templates\news\news_detail.html:13
+msgid "Back to news list"
+msgstr "Вернуться к списку новостей"
+
+#: .\templates\news\news_list.html:6
+msgid "News list"
+msgstr "Список новостей"
+
+#: .\templates\news\news_list.html:10
+msgid "Total news:"
+msgstr "Всего новостей:"
+
+#: .\templates\news\news_list.html:13
+msgid "Become an author!"
+msgstr "Станьте автором!"
+
+#: .\templates\news\news_list.html:17
+msgid "Categories:"
+msgstr "Категории:"
+
+#: .\templates\news\news_list.html:26
+msgid "Unsubscribe"
+msgstr "Отписаться"
+
+#: .\templates\news\news_list.html:28
+msgid "Subscribe"
+msgstr "Подписаться"
+
+#: .\templates\news\news_list.html:31
+msgid "Login to subscribe"
+msgstr "Войдите в систему, чтобы подписаться"
+
+#: .\templates\news\news_list.html:48
+msgid "New"
+msgstr "Новое"
+
+#: .\templates\news\news_list.html:56
+msgid "First"
+msgstr "Первая"
+
+#: .\templates\news\news_list.html:57
+msgid "Previous"
+msgstr "Предыдущая"
+
+#: .\templates\news\news_list.html:61
+msgid "Page"
+msgstr "Страница"
+
+#: .\templates\news\news_list.html:61
+msgid "of"
+msgstr "из"
+
+#: .\templates\news\news_list.html:65
+msgid "Next"
+msgstr "Дальше"
+
+#: .\templates\news\news_list.html:66
+msgid "Last"
+msgstr "Последний"
+
+#: .\templates\protect\index.html:5
+#, python-format
+msgid "The page of the authorized user"
+msgstr "Страница авторизованного пользователя"
+
+#: .\templates\protect\index.html:6
+msgid "It may contain personal information for each user."
+msgstr "Здесь может содержаться персональная информация для каждого пользователя"
+
+#: .\templates\protect\index.html:7
+msgid "Exit"
+msgstr "Выйти"
+
+#: .\templates\protect\index.html:10
+msgid "I want to become an author!"
+msgstr "Хочу стать автором!"
+
+#~ msgid "Hello world"
+#~ msgstr "Привет мир"

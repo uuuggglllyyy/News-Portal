@@ -14,13 +14,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-b1i7_hdja@ye=v_^^r@m8e87dj^30$j8gw%)wf7a&o#w!x%7&g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'django_apscheduler',
+    'django.middleware.locale',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +49,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'middlewares.TimezoneMiddleware',
+    'middlewares.RequestLoggingMiddleware'
 ]
 
 ROOT_URLCONF = 'newsportal.urls'
@@ -108,7 +113,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('ru', 'Русский'),
+]
 
 TIME_ZONE = 'UTC'
 
@@ -184,7 +194,8 @@ ADMINS = [
 
 SERVER_EMAIL = DEFAULT_FROM_EMAIL  # Или другой адрес, с которого будут отправляться сообщения об ошибках
 
-LOGGING = {
+#if you need you can on
+'''LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
@@ -270,4 +281,9 @@ LOGGING = {
     }
 }
 
-logging.config.dictConfig(LOGGING)
+logging.config.dictConfig(LOGGING)'''
+
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]

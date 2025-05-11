@@ -1,33 +1,34 @@
 {% extends 'default.html' %}
 {% load cache %}
 {% load custom_filters %}
+{% load i18n %}
 
-{% block title %}Список новостей{% endblock %}
+{% block title %}{% trans "News list" %}{% endblock %}
 
 {% block content %}
-    <h2>Новости</h2>
-    <p>Всего новостей: {{ total_news }}</p>
+    <h2>{% trans "News" %}</h2>
+    <p>{% blocktrans %}Total news:{% endblocktrans %} {{ total_news }}</p>
 
     {% if is_not_author %}
-        <a href="{% url 'become_author' %}">Стать автором!</a>
+        <a href="{% url 'become_author' %}">{% trans "Become an author!" %}</a>
     {% endif %}
 
     <!--  Блок с категориями и кнопками подписки -->
-    <h3>Категории:</h3>
+    <h3>{% trans "Categories:" %}</h3>
     {% cache 60 categories_block %}  <!-- Кэшируем на 60 секунд, ключ "categories_block" -->
     <ul class="list-group">
         {% for category in categories %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ category.name }}
+                {% trans category.name %}
                 <div>
                     {% if user.is_authenticated %}
                         {% if user in category.subscribers.all %}
-                            <a href="{% url 'subscribe' category_id=category.id %}" class="btn btn-sm btn-danger">Отписаться</a>
+                            <a href="{% url 'subscribe' category_id=category.id %}" class="btn btn-sm btn-danger">{% trans "Unsubscribe" %}</a>
                         {% else %}
-                            <a href="{% url 'subscribe' category_id=category.id %}" class="btn btn-sm btn-success">Подписаться</a>
+                            <a href="{% url 'subscribe' category_id=category.id %}" class="btn btn-sm btn-success">{% trans "Subscribe" %}</a>
                         {% endif %}
                     {% else %}
-                        <a href="{% url 'account_login' %}" class="btn btn-sm btn-secondary">Войти, чтобы подписаться</a>
+                        <a href="{% url 'account_login' %}" class="btn btn-sm btn-secondary">{% trans "Login to subscribe" %}</a>
                     {% endif %}
                 </div>
             </li>
@@ -37,14 +38,14 @@
     <!-- Конец блока с категориями -->
 
     <ul class="list-group">
-        {% for item in page_obj %}  {# Изменили итерацию на page_obj #}
+        {% for item in page_obj %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                    <h3><a href="{% url 'news_detail' item.id %}">{{ item.title|censor }}</a></h3>
+                    <h3><a href="{% url 'news_detail' item.id %}">{% trans item.title|censor %}</a></h3>
                     <p class="text-muted">{{ item.date_created|date:"d.m.Y" }}</p>
-                    <p>{{ item.text|censor|truncatewords:20 }}</p>
+                    <p>{% trans item.text|truncatewords:20|censor %}</p>
                 </div>
-                <span class="badge bg-primary rounded-pill">Новое</span>
+                <span class="badge bg-primary rounded-pill">{% trans "New" %}</span>
             </li>
         {% endfor %}
     </ul>
@@ -52,17 +53,17 @@
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; Первая</a>
-                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+                <a href="?page=1"> &laquo; {% trans "First" %}</a>
+                <a href="?page={{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>
             {% endif %}
 
             <span class="current">
-                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                {% blocktrans %}Page{% endblocktrans %} {{ page_obj.number }} {% blocktrans %}of{% endblocktrans %} {{ page_obj.paginator.num_pages }}.
             </span>
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+                <a href="?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">{% trans "Last" %} &raquo;</a>
             {% endif %}
         </span>
     </div>

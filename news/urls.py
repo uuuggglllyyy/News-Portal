@@ -1,11 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
     path('news/', views.news_list, name='news_list'),
     path('news/<int:news_id>/', views.news_detail, name='news_detail'),
     path('news/search/', views.news_search, name='news_search'), #URL для поиска
-
     path('news/create/', views.NewsCreate.as_view(), name='news_create'),
     path('news/<int:pk>/edit/', views.NewsUpdate.as_view(), name='news_edit'),
     path('news/<int:pk>/delete/', views.NewsDelete.as_view(), name='news_delete'),

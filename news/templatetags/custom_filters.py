@@ -1,23 +1,18 @@
 from django import template
+from django.utils.safestring import mark_safe
 
 register = template.Library()
-
-censored_words = ['редиска', 'Редиска']  # Добавьте больше слов сюда
 
 @register.filter(name='censor')
 def censor(value):
     """
     Цензурирует указанные слова в строке. Заменяет их первой
-    буквой, за которой следуют звездочки.
-
-    Аргументы:
-        value: Строка для цензурирования.
-
-    Возвращает:
-        Цензурированная строка.
+    буквой, за которой следует звездочки.
     """
-    if not isinstance(value, str):
-        raise ValueError("Фильтр censor может быть применен только к строкам.")
+    censored_words = ['редиска', 'редиска']  # Добавьте больше слов сюда
+
+    # Преобразуем значение в строку, если это необходимо
+    value = str(value)
 
     words = value.split()
     censored_text = []
@@ -28,8 +23,3 @@ def censor(value):
         else:
             censored_text.append(word)
     return ' '.join(censored_text)
-
-# Пример использования в шаблоне:
-# {{ article.title|censor }}
-# {{ article.text|censor }}
-

@@ -8,32 +8,36 @@ from .forms import PostForm, NewsSearchForm  # Создадим PostForm ниж�
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.utils import timezone
-import logging  # ADD THIS LINE
+from django.utils import timezone  # Добавлено
+import pytz  # Добавлено
+import logging
 from .tasks import send_notifications  # Import Celery task
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.http import HttpResponse
+from django.utils.translation import gettext as _  # импортируем функцию для перевода
 
 
-logger = logging.getLogger(__name__) # ADD THIS LINE
-security_logger = logging.getLogger('django.security') # ADD THIS LINE
+logger = logging.getLogger(__name__)
+security_logger = logging.getLogger('django.security')
 
-#тест логов, вызывает ошибку
+
+# тест логов, вызывает ошибку
 def test_logging_view(request):
-    logger.debug("This is a debug message.")
-    logger.info("This is an info message.")
-    logger.warning("This is a warning message.")
+    logger.debug(_("This is a debug message."))
+    logger.info(_("This is an info message."))
+    logger.warning(_("This is a warning message."))
     try:
         1 / 0
     except Exception as e:
-        logger.error(f"This is an error message: {e}", exc_info=True)  # Включаем стек трейс
-        logger.critical("This is a critical message.")
+        logger.error(_(f"This is an error message: {e}"), exc_info=True)  # Включаем стек трейс
+        logger.critical(_("This is a critical message."))
         raise  # Важно: перебросить исключение, чтобы Django обработал его
     security_logger = logging.getLogger('django.security')  # Получаем существующий логгер
-    security_logger.warning("Security warning: Unauthorized access attempt!")
+    security_logger.warning(_("Security warning: Unauthorized access attempt!"))
 
-    return HttpResponse("Logging test page.")
+    return HttpResponse(_("Logging test page."))
+
 
 class PostList(ListView):
     model = Post
@@ -55,7 +59,13 @@ class PostList(ListView):
         context['post_type'] = self.post_type
         context['is_news'] = self.post_type == 'NW'
         context['is_article'] = self.post_type == 'AR'
+        context['timezones'] = pytz.common_timezones # Добавлено
+        context['current_time'] = timezone.now() # Добавлено
         return context
+
+    def post(self, request):  #  Для обработки выбора часового пояса
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect('news_list') #  Используйте имя URL
 
 
 class PostDetail(DetailView):
@@ -78,6 +88,13 @@ class PostDetail(DetailView):
 
         return obj
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['timezones'] = pytz.common_timezones # Добавлено
+        context['current_time'] = timezone.now() # Добавлено
+        return context
+
+
 
 class BasePostCreate(CreateView):
     model = Post
@@ -99,17 +116,17 @@ class BasePostCreate(CreateView):
         ).count()
 
         if post_count >= 3:
-            form.add_error(None, "Вы достигли лимита в 3 публикации в сутки.")
+            form.add_error(None, _("You have reached the limit of 3 publications per day."))
             return self.form_invalid(form)
 
         post.save()
 
         # Сохраняем категории после сохранения поста
         form.save_m2m()
-        logger.info(f"Вызываем send_notifications.delay для поста с id {post.pk}")
+        logger.info(f"Вызываем send_notifications.delay {_('for a post with an id')} {post.pk}")
 
         #  ВАЖНО: Залогировать, что функция выполнилась один раз:
-        logger.info(f"form_valid выполнилась один раз для поста с id {post.pk}")
+        logger.info(f"form_valid {_('completed once for a post with the id')} {post.pk}")
 
         return super().form_valid(form)  # Или просто return HttpResponseRedirect(self.get_success_url())
 
@@ -124,7 +141,9 @@ class BasePostCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['post_type_name'] = 'Новость' if self.post_type == 'NW' else 'Статья'
+        context['post_type_name'] = _('News') if self.post_type == 'NW' else _('Article')
+        context['timezones'] = pytz.common_timezones # Добавлено
+        context['current_time'] = timezone.now() # Добавлено
         return context
 
 
@@ -148,7 +167,9 @@ class BasePostUpdate(PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
-        context['post_type_name'] = 'Новость' if post.post_type == 'NW' else 'Статья'
+        context['post_type_name'] = _('News') if post.post_type == 'NW' else _('Article')
+        context['timezones'] = pytz.common_timezones # Добавлено
+        context['current_time'] = timezone.now() # Добавлено
         return context
 
 
@@ -170,7 +191,9 @@ class BasePostDelete(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         post = self.get_object()
-        context['post_type_name'] = 'Новость' if post.post_type == 'NW' else 'Статья'
+        context['post_type_name'] = _('News') if post.post_type == 'NW' else _('Article')
+        context['timezones'] = pytz.common_timezones # Добавлено
+        context['current_time'] = timezone.now() # Добавлено
         return context
 
 
@@ -205,6 +228,8 @@ def news_search(request):
     context = {
         'form': form,
         'news': news,
+        'timezones': pytz.common_timezones, # Добавлено
+        'current_time': timezone.now() # Добавлено
     }
     return render(request, 'news/news_search.html', context)
 
@@ -223,6 +248,8 @@ def news_list(request):
         'page_obj': page_obj,  # Передаём объект страницы
         'total_news': total_news,
         'categories': Category.objects.all(),
+        'timezones': pytz.common_timezones,  # Добавлено
+        'current_time': timezone.now()  # Добавлено
     }
 
     return render(request, 'news/news_list.html', context)
@@ -231,7 +258,14 @@ def news_list(request):
 @cache_page(60 * 5)  # Кешируем на 5 минут (300 секунд)
 def news_detail(request, news_id):
     news = Post.objects.get(id=news_id)
-    return render(request, 'news/news_detail.html', {'news': news})
+
+    context = {
+        'news': news,
+        'timezones': pytz.common_timezones,  # Добавлено
+        'current_time': timezone.now(),  # Добавлено
+    }
+
+    return render(request, 'news/news_detail.html', context)
 
 
 @login_required

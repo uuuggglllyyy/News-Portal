@@ -54,3 +54,17 @@ Traceback (most recent call last):
     ~~^~~
 ZeroDivisionError: division by zero
 2025-05-05 20:21:39 CRITICAL news.views C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\views.py None This is a critical message.
+2025-05-05 20:26:56 ERROR news.views C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\views.py (<class 'ZeroDivisionError'>, ZeroDivisionError('division by zero'), <traceback object at 0x0000025DDBDB5640>) This is an error message: division by zero
+Traceback (most recent call last):
+  File "C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\views.py", line 28, in test_logging_view
+    1 / 0
+    ~~^~~
+ZeroDivisionError: division by zero
+2025-05-05 20:26:56 CRITICAL news.views C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\views.py None This is a critical message.
+2025-05-05 20:27:00 ERROR news.views C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\views.py (<class 'ZeroDivisionError'>, ZeroDivisionError('division by zero'), <traceback object at 0x0000025DDC2EC880>) This is an error message: division by zero
+Traceback (most recent call last):
+  File "C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\views.py", line 28, in test_logging_view
+    1 / 0
+    ~~^~~
+ZeroDivisionError: division by zero
+2025-05-05 20:27:00 CRITICAL news.views C:\Users\顯闉\PycharmProjects\NewsPortal\News-Portal-main\news\views.py None This is a critical message.

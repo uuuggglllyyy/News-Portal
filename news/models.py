@@ -42,8 +42,8 @@ class Post(models.Model):
     ARTICLE = 'AR'
     NEWS = 'NW'
     POST_TYPES = [
-        (ARTICLE, 'Статья'),
-        (NEWS, 'Новость'),
+        (ARTICLE, 'Article'),
+        (NEWS, 'News'),
     ]
 
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
