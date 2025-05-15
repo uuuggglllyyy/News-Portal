@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load tz %} <! -- Добавьте загрузку tz -->
 
-<!DOCTYPE html>
+
 <html lang="{% get_current_language as LANGUAGE_CODE %}">
 <head>
     <meta charset="UTF-8">
@@ -32,7 +32,7 @@
                 </form>
 
                 {% get_current_timezone as TIME_ZONE %}
-                <form action="{% url 'news_list' %}" method="post" class="container">{% csrf_token %}
+                <form action="{% url 'time_zone' %}" method="post" class="container">{% csrf_token %}
                     <label for="timezone">Time zone:</label>
                     <select name="timezone" id="timezone">
                         {% for tz in timezones %}

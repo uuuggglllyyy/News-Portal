@@ -65,7 +65,7 @@ class PostList(ListView):
 
     def post(self, request):  #  Для обработки выбора часового пояса
         request.session['django_timezone'] = request.POST['timezone']
-        return redirect('news_list') #  Используйте имя URL
+        return redirect(request.META['HTTP_REFERER']) #  Используйте имя URL
 
 
 class PostDetail(DetailView):
@@ -187,14 +187,6 @@ class BasePostDelete(DeleteView):
 
     def get_success_url(self):
         return reverse('news_list')  # Перенаправляем на news_list
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        post = self.get_object()
-        context['post_type_name'] = _('News') if post.post_type == 'NW' else _('Article')
-        context['timezones'] = pytz.common_timezones # Добавлено
-        context['current_time'] = timezone.now() # Добавлено
-        return context
 
 
 class NewsDelete(BasePostDelete):

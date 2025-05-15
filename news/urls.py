@@ -14,4 +14,5 @@ urlpatterns = [
     path('<int:pk>/', views.PostDetail.as_view(), name='post_detail'),
     path('subscribe/<int:category_id>/', views.subscribe, name='subscribe'),
     path('test_logging/', views.test_logging_view, name='test_logging_view'), #тест логов, вызывает ошибку
+    path('time_zone/', views.PostList.as_view(), name='time_zone'),
 ]
