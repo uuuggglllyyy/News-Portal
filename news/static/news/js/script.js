@@ -1,17 +1,18 @@
-// Простой пример добавления интерактивности
+function setTheme() {
+    const now = new Date();
+    const hour = now.getHours();
+    const body = document.getElementById('body');
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Добавляем эффект hover для элементов списка новостей
-    const newsItems = document.querySelectorAll('.news-list-item');
-    newsItems.forEach(item => {
-        item.addEventListener('mouseover', function() {
-            this.style.backgroundColor = '#f0f0f0';
-        });
-        item.addEventListener('mouseout', function() {
-            this.style.backgroundColor = '#fff';
-        });
-    });
+    if (hour >= 19 || hour < 7) {
+        body.classList.add('dark-theme');
+    } else {
+        body.classList.remove('dark-theme');
+    }
+}
 
-    // Пример: вывод сообщения в консоль при загрузке страницы
-    console.log("Custom JavaScript loaded!");
-});
+// Вызываем функцию при загрузке страницы
+setTheme();
+
+// Обновляем тему каждый час
+setInterval(setTheme, 3600000);
+

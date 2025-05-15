@@ -1,0 +1,28 @@
+body.dark-theme {
+    background-color: #222; /* Темный фон */
+    color: #eee;          /* Светлый текст */
+}
+
+.bg-light.dark-theme { /*  Важно, чтобы этот класс был добавлен после bg-light */
+    background-color: #333 !important; /* Темный фон для контейнеров */
+}
+
+body.dark-theme .btn-outline-secondary {
+    border-color: #fff;
+    color: #fff;
+}
+
+body.dark-theme .btn-outline-secondary:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+body.dark-theme a {
+    color: #add8e6;
+}
+
+body.dark-theme a:hover {
+    color: #fff;
+}
+
+/*  Здесь можно добавить другие стили для темной темы  */
